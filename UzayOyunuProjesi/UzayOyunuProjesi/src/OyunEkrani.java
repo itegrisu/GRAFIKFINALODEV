@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class OyunEkrani extends JFrame {
+
     private BaslangicPaneli baslangicPaneli;
     private Oyun oyunPaneli;
     private JPanel logoPanel;
