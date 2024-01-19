@@ -21,7 +21,6 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private int score = 0;
     private BufferedImage uzayGemiImage, arkaPlanImage, cerceve1, cerceve2;
     SimpleDataStorage simpleDataStorage = new SimpleDataStorage();
-    private ArrayList<UzayAtes> atesList = new ArrayList<>();
     private Random random = new Random();
     private int atesEkleY = 8;
     private int canavarEkleY = 1;
@@ -83,19 +82,6 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
                     canavar.getImage().getWidth(), canavar.getImage().getHeight(), this);
         }
 
-        // Ateş oluşturma
-        g.setColor(Color.orange);
-        for (UzayAtes ates : atesList) {
-            g.fillRect(ates.getX(), ates.getY(), 5, 10);
-        }
-
-        // Ateş silme
-        for (UzayAtes ates : atesList) {
-            if (ates.getY() < 0) {
-                atesList.remove(ates);
-                break;
-            }
-        }
 
 
         g.drawImage(cerceve1, 0, 0, oyunPanelWidth, oyunPanelHeight, this);
@@ -127,9 +113,6 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         SureKontrol();
         if (!gameOver) {
-            for (UzayAtes ates : atesList) {
-                ates.setY(ates.getY() - atesEkleY);
-            }
             for (int i = 0; i < canavarList.size(); i++) {
                 Canavar canavar = canavarList.get(i);
                 canavar.setY(canavar.getY() + canavarEkleY);
@@ -166,7 +149,6 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
     private void YenidenBaşlat() {
         canavarList.clear();
-        atesList.clear();
         uzayGemisiX = 380;
         gameOver = false;
         olenCanavar = 0;
@@ -271,7 +253,24 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
             if (uzayGemisiRect.intersects(canavarRect)) {
                 // Çarpışma tespit edildi, çocuğu kaldır ve puan ekle
                 canavarList.remove(i);
-                score += 50;
+                int puan = 0;
+
+                switch (canavar.getImageIndex()) {
+                    case 1:
+                        puan = 1;
+                        break;
+                    case 2:
+                        puan = 2;
+                        break;
+                    case 3:
+                        puan = -1;
+                        break;
+                    case 4:
+                        puan = -2;
+                        break;
+                }
+
+                score += puan;
                 olenCanavar++;
                 MuzikEkle("Muzik/Carpisma.wav");
                 i--; // Liste boyutu değiştiği için indis azaltılmalı
@@ -307,9 +306,6 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
                 uzayGemisiEkleX-=5;
             }
 
-        } else if (c == KeyEvent.VK_SPACE) {
-            atesList.add(new UzayAtes(uzayGemisiX + 22, uzayGemisiY));
-            MuzikEkle("Muzik/Ates.wav");
         }
 
     }
@@ -327,12 +323,14 @@ class Canavar {
     private int x;
     private int y;
     private BufferedImage image;
+    private int imageIndex; // Hangi resmin yüklendiğini takip etmek için
 
     public Canavar(int x, int y) {
         this.x = x;
         this.y = y;
+        this.imageIndex = new Random().nextInt(4) + 1; // Rastgele bir resim seç
         try {
-            image = ImageIO.read(new FileImageInputStream(new File("images/A" + (new Random().nextInt(4) + 1) + ".png")));
+            image = ImageIO.read(new FileImageInputStream(new File("images/A" + imageIndex + ".png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -357,26 +355,9 @@ class Canavar {
     public BufferedImage getImage() {
         return image;
     }
-}
 
-class UzayAtes {
-    private int x;
-    private int y;
-
-    public UzayAtes(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public int getImageIndex() {
+        return imageIndex;
     }
 }
+
