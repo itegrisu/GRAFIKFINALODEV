@@ -45,7 +45,7 @@ public class OyunEkrani extends JFrame {
     }
 
     public static void main(String[] args) {
-        new OyunEkrani("UZAY OYUNU");
+        new OyunEkrani("MEYVE MATİK");
     }
 
     public void oyunBaslat() {

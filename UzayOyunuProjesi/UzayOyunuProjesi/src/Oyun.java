@@ -14,21 +14,21 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 
 public class Oyun extends JPanel implements KeyListener, ActionListener {
-    private ArrayList<Canavar> canavarList = new ArrayList<>();
+    private ArrayList<Meyve> meyveList = new ArrayList<>();
     private Timer timer = new Timer(17, this);
     public boolean gameOver = false;
-    private int olenCanavar = 0;
+    private int olenMeyve = 0;
     private int score = 0;
     private BufferedImage uzayGemiImage, arkaPlanImage, cerceve1, cerceve2;
     SimpleDataStorage simpleDataStorage = new SimpleDataStorage();
     private String soru[]={"8+2","6X3","7-3","10/2"};
     private int cevap[]={10,18,4,5};
     private Random random = new Random();
-    private int atesEkleY = 8;
-    private int canavarEkleY = 1;
-    private int uzayGemisiX = 400;
-    private int uzayGemisiEkleX = 20;
-    private int uzayGemisiY = 480;
+    private int meyveEkleX = 8;
+    private int meyveEkleY = 1;
+    private int cocuk = 400;
+    private int cocukEkleX = 20;
+    private int cocukY = 480;
     private int sayac = 0;
     private int sure = 0;
     Boolean cevapDogruMu = false;
@@ -37,26 +37,18 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private int oyunPanelHeight = 650;
     private int sureKontrol = 0;
 
-    enum GameStatus {
-        NOT_STARTED,
-        RUNNING,
-        GAME_OVER;
-    }
-
     public Oyun() {
         setFocusable(true);
         addKeyListener(this);
         requestFocusInWindow();
 
         try {
-          //  cerceve2 = ImageIO.read(new FileImageInputStream(new File("images/Cerceve2.png")));
-            //cerceve1 = ImageIO.read(new FileImageInputStream(new File("images/Cerceve.png")));
             arkaPlanImage = ImageIO.read(new FileImageInputStream(new File("images/Arkaplan.png")));
             uzayGemiImage = ImageIO.read(new FileImageInputStream(new File("images/Cocuk.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        CanavarlariBaslat();
+        CocuklariBaslat();
     }
 
     public void baslatOyun() {
@@ -79,11 +71,11 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
         super.paint(g);
         g.drawImage(cerceve2, -5, 0, getWidth(), getHeight(), this);
         g.drawImage(arkaPlanImage, 4, 5, oyunPanelWidth - 10, oyunPanelHeight - 10, this);
-        g.drawImage(uzayGemiImage, uzayGemisiX, uzayGemisiY, uzayGemiImage.getWidth(), uzayGemiImage.getHeight(), this);
+        g.drawImage(uzayGemiImage, cocuk, cocukY, uzayGemiImage.getWidth(), uzayGemiImage.getHeight(), this);
 
-        for (Canavar canavar : canavarList) {
-            g.drawImage(canavar.getImage(), canavar.getX(), canavar.getY(),
-                    canavar.getImage().getWidth(), canavar.getImage().getHeight(), this);
+        for (Meyve meyve : meyveList) {
+            g.drawImage(meyve.getImage(), meyve.getX(), meyve.getY(),
+                    meyve.getImage().getWidth(), meyve.getImage().getHeight(), this);
         }
 
 
@@ -113,6 +105,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
         if (gameOver) {
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Game Over", 100, 150);
+            g.drawString("Skor :"+ score,100,250);
         }
     }
 
@@ -120,13 +113,13 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         SureKontrol();
         if (!gameOver) {
-            for (int i = 0; i < canavarList.size(); i++) {
-                Canavar canavar = canavarList.get(i);
-                canavar.setY(canavar.getY() + canavarEkleY);
+            for (int i = 0; i < meyveList.size(); i++) {
+                Meyve meyve = meyveList.get(i);
+                meyve.setY(meyve.getY() + meyveEkleY);
 
-                if (canavar.getY() > getHeight()) {
-                    canavarList.remove(i);
-                    canavarList.add(new Canavar(random.nextInt(oyunPanelWidth - 70), -50));
+                if (meyve.getY() > getHeight()) {
+                    meyveList.remove(i);
+                    meyveList.add(new Meyve(random.nextInt(oyunPanelWidth - 70), -50));
                 }
                 CarpismaKontrol();
             }
@@ -136,15 +129,15 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     }
 
 
-    private void CanavarlariBaslat() {
+    private void CocuklariBaslat() {
         for (int i = 0; i < 10; i++) {
-            canavarList.add(new Canavar(random.nextInt(oyunPanelWidth - 70), -50));
+            meyveList.add(new Meyve(random.nextInt(oyunPanelWidth - 70), -50));
         }
     }
 
     private void OyunBittiMiKontrol() {
-        for (Canavar canavar : canavarList) {
-            if (canavar.getY() >= getHeight() - 187) {
+        for (Meyve meyve : meyveList) {
+            if (meyve.getY() >= getHeight() - 187) {
                 gameOver = false;
                 break;
             }
@@ -155,17 +148,17 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     }
 
     private void YenidenBaşlat() {
-        canavarList.clear();
-        uzayGemisiX = 380;
+        meyveList.clear();
+        cocuk = 380;
         gameOver = false;
-        olenCanavar = 0;
+        olenMeyve = 0;
         timer.restart();
-        CanavarlariBaslat();
+        CocuklariBaslat();
         sayac = 0;
         sure = 0;
-        canavarEkleY = 1;
-        uzayGemisiEkleX = 20;
-        atesEkleY = 8;
+        meyveEkleY = 1;
+        cocukEkleX = 20;
+        meyveEkleX = 8;
         enYuksekScore = Integer.parseInt(simpleDataStorage.loadData("score"));
         score = 0;
         repaint();
@@ -177,7 +170,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
         frame.setSize(800, 650);
         frame.setLocationRelativeTo(null);
 
-        JLabel gameOverLabel = new JLabel("Game Over");
+        JLabel gameOverLabel = new JLabel("Skor " + score);
         gameOverLabel.setFont(new Font("Arial", Font.BOLD, 36));
         gameOverLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -221,10 +214,10 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
             sayac = 0;
             if (sureKontrol > 100) {
                 sureKontrol = 0;
-                canavarEkleY += 1;
+                meyveEkleY += 1;
                 sayac = 0;
-                uzayGemisiEkleX += 6;
-                atesEkleY += 4;
+                cocukEkleX += 6;
+                meyveEkleX += 4;
             }
         }
     }
@@ -251,18 +244,18 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
 
     public void CarpismaKontrol() {
-        Rectangle uzayGemisiRect = new Rectangle(uzayGemisiX, uzayGemisiY, uzayGemiImage.getWidth(), uzayGemiImage.getHeight());
+        Rectangle uzayGemisiRect = new Rectangle(cocuk, cocukY, uzayGemiImage.getWidth(), uzayGemiImage.getHeight());
 
-        for (int i = 0; i < canavarList.size(); i++) {
-            Canavar canavar = canavarList.get(i);
-            Rectangle canavarRect = new Rectangle(canavar.getX(), canavar.getY(), canavar.getImage().getWidth(), canavar.getImage().getHeight());
+        for (int i = 0; i < meyveList.size(); i++) {
+            Meyve meyve = meyveList.get(i);
+            Rectangle canavarRect = new Rectangle(meyve.getX(), meyve.getY(), meyve.getImage().getWidth(), meyve.getImage().getHeight());
 
             if (uzayGemisiRect.intersects(canavarRect)) {
                 // Çarpışma tespit edildi, çocuğu kaldır ve puan ekle
-                canavarList.remove(i);
+                meyveList.remove(i);
                 int puan = 0;
 
-                switch (canavar.getImageIndex()) {
+                switch (meyve.getImageIndex()) {
                     case 1:
                         puan = 1;
                         break;
@@ -278,10 +271,10 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
                 }
 
                 score += puan;
-                olenCanavar++;
+                olenMeyve++;
                 MuzikEkle("Muzik/Carpisma.wav");
                 i--; // Liste boyutu değiştiği için indis azaltılmalı
-                canavarList.add(new Canavar(random.nextInt(oyunPanelWidth - 2 * canavar.getImage().getWidth()), -50));
+                meyveList.add(new Meyve(random.nextInt(oyunPanelWidth - 2 * meyve.getImage().getWidth()), -50));
                 break;
             }
         }
@@ -293,24 +286,24 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     public void keyPressed(KeyEvent e) {
         int c = e.getKeyCode();
         if (c == KeyEvent.VK_LEFT) {
-            if (uzayGemisiX <= 15) {
-                uzayGemisiX = 15;
+            if (cocuk <= 15) {
+                cocuk = 15;
             } else {
-                uzayGemisiX -= uzayGemisiEkleX;
+                cocuk -= cocukEkleX;
             }
         } else if (c == KeyEvent.VK_RIGHT) {
-            if (uzayGemisiX >= (oyunPanelWidth) - 70) {
-                uzayGemisiX = oyunPanelWidth - 70;
+            if (cocuk >= (oyunPanelWidth) - 70) {
+                cocuk = oyunPanelWidth - 70;
             } else {
-                uzayGemisiX += uzayGemisiEkleX;
+                cocuk += cocukEkleX;
             }
         } else if (c==KeyEvent.VK_UP){
-            if (uzayGemisiEkleX<40){
-                uzayGemisiEkleX+=5;
+            if (cocukEkleX <40){
+                cocukEkleX +=5;
             }
         } else if (c==KeyEvent.VK_DOWN) {
-            if (uzayGemisiEkleX>5){
-                uzayGemisiEkleX-=5;
+            if (cocukEkleX >5){
+                cocukEkleX -=5;
             }
 
         }
@@ -326,13 +319,13 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     }
 }
 
-class Canavar {
+class Meyve {
     private int x;
     private int y;
     private BufferedImage image;
     private int imageIndex; // Hangi resmin yüklendiğini takip etmek için
 
-    public Canavar(int x, int y) {
+    public Meyve(int x, int y) {
         this.x = x;
         this.y = y;
         this.imageIndex = new Random().nextInt(4) + 1; // Rastgele bir resim seç
