@@ -52,6 +52,7 @@ public class OyunEkrani extends JFrame {
         ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "oyun");
         oyunPaneli.baslatOyun();
         oyunPaneli.requestFocusInWindow();
+
     }
 
     class OyunNasilOynanirFrame extends JFrame {

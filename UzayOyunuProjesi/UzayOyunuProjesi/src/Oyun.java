@@ -21,6 +21,8 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private int score = 0;
     private BufferedImage uzayGemiImage, arkaPlanImage, cerceve1, cerceve2;
     SimpleDataStorage simpleDataStorage = new SimpleDataStorage();
+    private String soru[]={"8+2","6X3","7-3","10/2"};
+    private int cevap[]={10,18,4,5};
     private Random random = new Random();
     private int atesEkleY = 8;
     private int canavarEkleY = 1;
@@ -29,6 +31,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private int uzayGemisiY = 480;
     private int sayac = 0;
     private int sure = 0;
+    Boolean cevapDogruMu = false;
     private int enYuksekScore = 0;
     private int oyunPanelWidth = 800;
     private int oyunPanelHeight = 650;
@@ -58,6 +61,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
     public void baslatOyun() {
         timer.start();
+        MuzikEkle("Muzik/oyunEsnasında.wav");
         String scoreString = simpleDataStorage.loadData("score");
         int currentScore = 0;
 
@@ -88,19 +92,22 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
         g.setColor(Color.green);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Kill: " + olenCanavar, getWidth() - 180, 70);
-
-        g.setColor(Color.green);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Süre: " + sure, getWidth() - 180, 90);
 
         g.setColor(Color.green);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Skor: " + score, getWidth() - 180, 110);
 
-        g.setColor(Color.RED);
-        g.setFont(new Font("Arial", Font.BOLD, 12));
-        g.drawString("En Yüksek Skor: " + enYuksekScore, getWidth() - 180, 140);
+        if(score == cevap[0]){
+            gameOver = true;
+
+        } else{
+            g.setColor(Color.green);
+            g.setFont(new Font("Arial", Font.BOLD, 20));
+            g.drawString("Soru: " + soru[0], 20, 20);
+
+        }
+
 
         //oyun bitti
         if (gameOver) {
