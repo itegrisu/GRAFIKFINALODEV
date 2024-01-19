@@ -90,11 +90,11 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
         g.drawImage(cerceve1, 0, 0, oyunPanelWidth, oyunPanelHeight, this);
 
-        g.setColor(Color.green);
+        g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Süre: " + sure, getWidth() - 180, 90);
 
-        g.setColor(Color.green);
+        g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Skor: " + score, getWidth() - 180, 110);
 
@@ -102,7 +102,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
             gameOver = true;
 
         } else{
-            g.setColor(Color.green);
+            g.setColor(Color.black);
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Soru: " + soru[0], 20, 20);
 
@@ -111,7 +111,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
         //oyun bitti
         if (gameOver) {
-            g.setFont(new Font("Arial", Font.BOLD, 200));
+            g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Game Over", 100, 150);
         }
     }

@@ -15,16 +15,16 @@ public class OyunEkrani extends JFrame {
 
     public OyunEkrani(String title) {
         super(title);
-        ImageIcon logoImage = new ImageIcon("images/Logo.png");
-        JLabel logoLabel = new JLabel(logoImage);
-        logoLabel.setAlignmentX(0.5F);
+        //ImageIcon logoImage = new ImageIcon("images/Logo.png");
+        //JLabel logoLabel = new JLabel(logoImage);
+        //logoLabel.setAlignmentX(0.5F);
 
         baslangicPaneli = new BaslangicPaneli(this);
         oyunPaneli = new Oyun();
 
         logoPanel = new JPanel();
         logoPanel.setLayout(new BorderLayout());
-        logoPanel.add(logoLabel, "Center");
+        //logoPanel.add(logoLabel, "Center");
         this.setLayout(new BorderLayout());
         this.setLayout(new CardLayout());
         this.add(this.logoPanel, "Center");
@@ -86,7 +86,7 @@ public class OyunEkrani extends JFrame {
         private Image arkaPlanResmi;
 
         public BaslangicPaneli(OyunEkrani oyunEkrani) {
-            arkaPlanResmi = Toolkit.getDefaultToolkit().createImage("images/background.png"); // Resmin dosya adını uygun şekilde güncelleyin
+            arkaPlanResmi = Toolkit.getDefaultToolkit().createImage("images/Arka Plan Giriş.png"); // Resmin dosya adını uygun şekilde güncelleyin
             setLayout(new BorderLayout());
 
             JPanel buttonPanel = new JPanel(new GridBagLayout());
@@ -152,7 +152,7 @@ public class OyunEkrani extends JFrame {
             // "Çıkış" butonuna arka plan resmini ekle
             try {
                 Image nasilOynanirImage = ImageIO.read(new File("images/Çıkış Butonu.png")); // Butonun arka plan resminin dosya adını belirtin
-                ImageIcon cikisIcon = new ImageIcon(nasilOynanirImage.getScaledInstance(100,100, Image.SCALE_SMOOTH));
+                ImageIcon cikisIcon = new ImageIcon(nasilOynanirImage.getScaledInstance(183,63, Image.SCALE_SMOOTH));
                 JButton cikisButton = new JButton(cikisIcon);
                 add(buttonPanel, BorderLayout.CENTER);
                 cikisButton.setOpaque(false);
