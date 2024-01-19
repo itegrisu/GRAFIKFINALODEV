@@ -138,7 +138,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
                     canavarList.remove(i);
                     canavarList.add(new Canavar(random.nextInt(oyunPanelWidth - 70), -50));
                 }
-                CarpismaKontrol(canavar, i);
+                CarpismaKontrol();
             }
             OyunBittiMiKontrol();
             repaint();
@@ -155,7 +155,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private void OyunBittiMiKontrol() {
         for (Canavar canavar : canavarList) {
             if (canavar.getY() >= getHeight() - 187) {
-                gameOver = true;
+                gameOver = false;
                 break;
             }
         }
@@ -261,23 +261,26 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     }
 
 
-    public void CarpismaKontrol(Canavar canavar, int i) {
-        // UzayAtes ve Canavar arasındaki çakışmayı kontrol et
-        for (int j = 0; j < atesList.size(); j++) {
-            UzayAtes ates = atesList.get(j);
-            if (new Rectangle(ates.getX(), ates.getY(), 5, 10).intersects(new Rectangle(canavar.getX(), canavar.getY(), canavar.getImage().getWidth(), canavar.getImage().getHeight()))) {
-                // Çakışma tespit edildi, hem canavarı hem de atesi listeden kaldır
+    public void CarpismaKontrol() {
+        Rectangle uzayGemisiRect = new Rectangle(uzayGemisiX, uzayGemisiY, uzayGemiImage.getWidth(), uzayGemiImage.getHeight());
+
+        for (int i = 0; i < canavarList.size(); i++) {
+            Canavar canavar = canavarList.get(i);
+            Rectangle canavarRect = new Rectangle(canavar.getX(), canavar.getY(), canavar.getImage().getWidth(), canavar.getImage().getHeight());
+
+            if (uzayGemisiRect.intersects(canavarRect)) {
+                // Çarpışma tespit edildi, çocuğu kaldır ve puan ekle
                 canavarList.remove(i);
                 score += 50;
                 olenCanavar++;
                 MuzikEkle("Muzik/Carpisma.wav");
-                atesList.remove(j);
                 i--; // Liste boyutu değiştiği için indis azaltılmalı
                 canavarList.add(new Canavar(random.nextInt(oyunPanelWidth - 2 * canavar.getImage().getWidth()), -50));
                 break;
             }
         }
     }
+
 
 
     @Override
