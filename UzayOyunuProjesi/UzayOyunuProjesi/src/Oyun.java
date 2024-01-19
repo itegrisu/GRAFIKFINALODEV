@@ -35,12 +35,20 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private int oyunPanelHeight = 650;
     private int sureKontrol = 0;
 
+    enum GameStatus {
+        NOT_STARTED,
+        RUNNING,
+        GAME_OVER;
+    }
+
     public Oyun() {
         setFocusable(true);
         addKeyListener(this);
         requestFocusInWindow();
 
         try {
+          //  cerceve2 = ImageIO.read(new FileImageInputStream(new File("images/Cerceve2.png")));
+            //cerceve1 = ImageIO.read(new FileImageInputStream(new File("images/Cerceve.png")));
             arkaPlanImage = ImageIO.read(new FileImageInputStream(new File("images/Arkaplan.png")));
             uzayGemiImage = ImageIO.read(new FileImageInputStream(new File("images/Cocuk.png")));
         } catch (IOException e) {
@@ -51,7 +59,6 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
     public void baslatOyun() {
         timer.start();
-        // MuzikEkle("Muzik/Ortam.wav");
         String scoreString = simpleDataStorage.loadData("score");
         int currentScore = 0;
 
@@ -67,8 +74,8 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawImage(cerceve2, -5, 0, 800, 650, this);
-        g.drawImage(arkaPlanImage, 4, 5, 800 , 650, this);
+        g.drawImage(cerceve2, -5, 0, getWidth(), getHeight(), this);
+        g.drawImage(arkaPlanImage, 4, 5, oyunPanelWidth - 10, oyunPanelHeight - 10, this);
         g.drawImage(uzayGemiImage, uzayGemisiX, uzayGemisiY, uzayGemiImage.getWidth(), uzayGemiImage.getHeight(), this);
 
         for (Canavar canavar : canavarList) {
@@ -140,7 +147,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
 
     private void CanavarlariBaslat() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 10; i++) {
             canavarList.add(new Canavar(random.nextInt(oyunPanelWidth - 70), -50));
         }
     }
@@ -178,7 +185,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
     private void OyunBitti() {
         JFrame frame = new JFrame("Oyun Bitti");
-        frame.setSize(400, 300);
+        frame.setSize(800, 650);
         frame.setLocationRelativeTo(null);
 
         JLabel gameOverLabel = new JLabel("Game Over");
