@@ -30,7 +30,7 @@ public class OyunEkrani extends JFrame {
         this.add(this.baslangicPaneli, "baslangic");
         this.add(this.oyunPaneli, "oyun");
         this.setDefaultCloseOperation(3);
-        this.setSize(1920, 1080);
+        this.setSize(800, 650);
         this.setVisible(true);
 
         Timer logoTimer = new Timer(2000, new ActionListener() {
@@ -57,7 +57,7 @@ public class OyunEkrani extends JFrame {
         public OyunNasilOynanirFrame(OyunEkrani oyunEkrani) {
             setTitle("Oyun Nasıl Oynanır");
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            setSize(1920, 1080);
+            setSize(800, 650);
 
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -65,7 +65,7 @@ public class OyunEkrani extends JFrame {
 
             try{
             Image originalImage = ImageIO.read(new File("images/Nasıl.png"));
-            Image scaledImage = originalImage.getScaledInstance(1400, 700, Image.SCALE_SMOOTH);
+            Image scaledImage = originalImage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
             ImageIcon nasilOynanirImage = new ImageIcon(scaledImage);
             JLabel resimLabel = new JLabel(nasilOynanirImage);
             panel.setLayout(new BorderLayout());
@@ -84,7 +84,7 @@ public class OyunEkrani extends JFrame {
         private Image arkaPlanResmi;
 
         public BaslangicPaneli(OyunEkrani oyunEkrani) {
-            arkaPlanResmi = Toolkit.getDefaultToolkit().createImage("images/Arka Plan Giriş.png"); // Resmin dosya adını uygun şekilde güncelleyin
+            arkaPlanResmi = Toolkit.getDefaultToolkit().createImage("images/background.png"); // Resmin dosya adını uygun şekilde güncelleyin
             setLayout(new BorderLayout());
 
             JPanel buttonPanel = new JPanel(new GridBagLayout());
@@ -95,7 +95,7 @@ public class OyunEkrani extends JFrame {
             // "Oyun Başlat" butonuna arka plan resmini ekle
             try {
                 Image backgroundImage = ImageIO.read(new File("images/BaşlangıçButonu.png")); // Arka plan resminizin dosya adını belirtin
-                ImageIcon backgroundIcon = new ImageIcon(backgroundImage.getScaledInstance(220, 100, Image.SCALE_SMOOTH));
+                ImageIcon backgroundIcon = new ImageIcon(backgroundImage.getScaledInstance(183, 63, Image.SCALE_SMOOTH));
                 oyunBaslatButton.setIcon(backgroundIcon);
                 oyunBaslatButton.setOpaque(false);
                 oyunBaslatButton.setContentAreaFilled(false);
@@ -122,7 +122,7 @@ public class OyunEkrani extends JFrame {
             // "Oyun Nasıl Oynanır" butonuna arka plan resmini ekle
             try {
                 Image nasilOynanirImage = ImageIO.read(new File("images/Nasıl Oynanır Butonu.png")); // Butonun arka plan resminin dosya adını belirtin
-                ImageIcon nasilOynanirIcon = new ImageIcon(nasilOynanirImage.getScaledInstance(220, 100, Image.SCALE_SMOOTH));
+                ImageIcon nasilOynanirIcon = new ImageIcon(nasilOynanirImage.getScaledInstance(183,63, Image.SCALE_SMOOTH));
                 JButton oyunNasilOynanirButton = new JButton(nasilOynanirIcon);
                 oyunNasilOynanirButton.setOpaque(false);
                 oyunNasilOynanirButton.setContentAreaFilled(false);
@@ -150,7 +150,7 @@ public class OyunEkrani extends JFrame {
             // "Çıkış" butonuna arka plan resmini ekle
             try {
                 Image nasilOynanirImage = ImageIO.read(new File("images/Çıkış Butonu.png")); // Butonun arka plan resminin dosya adını belirtin
-                ImageIcon cikisIcon = new ImageIcon(nasilOynanirImage.getScaledInstance(220, 100, Image.SCALE_SMOOTH));
+                ImageIcon cikisIcon = new ImageIcon(nasilOynanirImage.getScaledInstance(100,100, Image.SCALE_SMOOTH));
                 JButton cikisButton = new JButton(cikisIcon);
                 add(buttonPanel, BorderLayout.CENTER);
                 cikisButton.setOpaque(false);
@@ -180,7 +180,7 @@ public class OyunEkrani extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             // Arka plan resmini çiz
-            g.drawImage(arkaPlanResmi, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(arkaPlanResmi, 0, 0, 800, 650, this);
         }
     }
 }

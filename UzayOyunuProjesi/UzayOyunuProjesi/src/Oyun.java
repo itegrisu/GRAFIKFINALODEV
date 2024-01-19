@@ -31,9 +31,15 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
     private int sayac = 0;
     private int sure = 0;
     private int enYuksekScore = 0;
-    private int oyunPanelWidth = 1650;
-    private int oyunPanelHeight = 900;
+    private int oyunPanelWidth = 800;
+    private int oyunPanelHeight = 650;
     private int sureKontrol = 0;
+
+    enum GameStatus {
+        NOT_STARTED,
+        RUNNING,
+        GAME_OVER;
+    }
 
     public Oyun() {
         setFocusable(true);
@@ -180,7 +186,7 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
 
     private void OyunBitti() {
         JFrame frame = new JFrame("Oyun Bitti");
-        frame.setSize(400, 300);
+        frame.setSize(800, 650);
         frame.setLocationRelativeTo(null);
 
         JLabel gameOverLabel = new JLabel("Game Over");
