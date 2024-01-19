@@ -295,6 +295,15 @@ public class Oyun extends JPanel implements KeyListener, ActionListener {
             } else {
                 uzayGemisiX += uzayGemisiEkleX;
             }
+        } else if (c==KeyEvent.VK_UP){
+            if (uzayGemisiEkleX<40){
+                uzayGemisiEkleX+=5;
+            }
+        } else if (c==KeyEvent.VK_DOWN) {
+            if (uzayGemisiEkleX>5){
+                uzayGemisiEkleX-=5;
+            }
+
         } else if (c == KeyEvent.VK_SPACE) {
             atesList.add(new UzayAtes(uzayGemisiX + 22, uzayGemisiY));
             MuzikEkle("Muzik/Ates.wav");
